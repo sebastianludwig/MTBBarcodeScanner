@@ -311,7 +311,7 @@ CGFloat const kFocalPointOfInterestY = 0.5;
 - (AVCaptureDevice *)newCaptureDeviceWithCamera:(MTBCamera)camera {
     
     AVCaptureDevice *newCaptureDevice = nil;
-    NSError *lockError = nil;
+//    NSError *lockError = nil;
     
     NSArray *videoDevices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     AVCaptureDevicePosition position = [self devicePositionForCamera:camera];
