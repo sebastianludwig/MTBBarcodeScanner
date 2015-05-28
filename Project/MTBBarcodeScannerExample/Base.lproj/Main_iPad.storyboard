@@ -251,6 +251,15 @@
                                     <outlet property="dataSource" destination="uM7-fn-iuC" id="YLb-aY-rLw"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVE-oH-IBI">
+                                <rect key="frame" x="610" y="962" width="41" height="30"/>
+                                <state key="normal" title="Crash">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="crash" destination="uM7-fn-iuC" eventType="touchUpInside" id="fUQ-Ig-ZtB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>

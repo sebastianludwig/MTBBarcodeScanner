@@ -85,6 +85,12 @@
     [self.scanner flipCamera];
 }
 
+- (IBAction)crash {
+    NSArray *bam = @[];
+    id wat = bam[3];
+    [wat alloc];
+}
+
 - (void)backTapped {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
