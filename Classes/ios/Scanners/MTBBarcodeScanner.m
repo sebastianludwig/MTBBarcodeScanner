@@ -311,7 +311,6 @@ CGFloat const kFocalPointOfInterestY = 0.5;
 - (AVCaptureDevice *)newCaptureDeviceWithCamera:(MTBCamera)camera {
     
     AVCaptureDevice *newCaptureDevice = nil;
-    NSError *lockError = nil;
     
     NSArray *videoDevices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     AVCaptureDevicePosition position = [self devicePositionForCamera:camera];
@@ -327,7 +326,7 @@ CGFloat const kFocalPointOfInterestY = 0.5;
         newCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     }
 
-    if ([newCaptureDevice lockForConfiguration:&lockError] == YES) {
+    if ([newCaptureDevice lockForConfiguration:nil] == YES) {
         
         // Prioritize the focus on objects near to the device
         if ([newCaptureDevice respondsToSelector:@selector(isAutoFocusRangeRestrictionSupported)] &&
