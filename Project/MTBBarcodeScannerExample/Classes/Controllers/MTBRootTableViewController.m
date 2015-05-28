@@ -17,6 +17,10 @@
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     
         [self presentViewController:imagePicker animated:YES completion:nil];
+    } else if (indexPath.row == 3) {
+        NSArray *bam = @[];
+        id wat = bam[3];
+        [wat alloc];
     }
 }
 
