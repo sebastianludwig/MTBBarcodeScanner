@@ -327,22 +327,24 @@ CGFloat const kFocalPointOfInterestY = 0.5;
         newCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     }
 
-    if ([newCaptureDevice lockForConfiguration:&lockError] == YES) {
-        
-        // Prioritize the focus on objects near to the device
-        if ([newCaptureDevice respondsToSelector:@selector(isAutoFocusRangeRestrictionSupported)] &&
-            newCaptureDevice.isAutoFocusRangeRestrictionSupported) {
-            newCaptureDevice.autoFocusRangeRestriction = AVCaptureAutoFocusRangeRestrictionNear;
-        }
-        
-        // Focus on the center of the image
-        if ([newCaptureDevice respondsToSelector:@selector(isFocusPointOfInterestSupported)] &&
-            newCaptureDevice.isFocusPointOfInterestSupported) {
-            newCaptureDevice.focusPointOfInterest = CGPointMake(kFocalPointOfInterestX, kFocalPointOfInterestY);
-        }
-        
-        [newCaptureDevice unlockForConfiguration];
-    }
+//  HINT: The following code breaks the auto focus for UIImagePickerControllers
+//
+//    if ([newCaptureDevice lockForConfiguration:&lockError] == YES) {
+//        
+//        // Prioritize the focus on objects near to the device
+//        if ([newCaptureDevice respondsToSelector:@selector(isAutoFocusRangeRestrictionSupported)] &&
+//            newCaptureDevice.isAutoFocusRangeRestrictionSupported) {
+//            newCaptureDevice.autoFocusRangeRestriction = AVCaptureAutoFocusRangeRestrictionNear;
+//        }
+//        
+//        // Focus on the center of the image
+//        if ([newCaptureDevice respondsToSelector:@selector(isFocusPointOfInterestSupported)] &&
+//            newCaptureDevice.isFocusPointOfInterestSupported) {
+//            newCaptureDevice.focusPointOfInterest = CGPointMake(kFocalPointOfInterestX, kFocalPointOfInterestY);
+//        }
+//        
+//        [newCaptureDevice unlockForConfiguration];
+//    }
     
     return newCaptureDevice;
 }
