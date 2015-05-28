@@ -80,6 +80,11 @@ CGFloat const kFocalPointOfInterestX = 0.5;
 CGFloat const kFocalPointOfInterestY = 0.5;
 
 @implementation MTBBarcodeScanner
+{
+    AVCaptureAutoFocusRangeRestriction previousAutoFocusRangeRestricion;
+    CGPoint previousFocusPointOfInterest;
+    AVCaptureDeviceInput *deviceInput;
+}
 
 #pragma mark - Lifecycle
 
@@ -195,9 +200,7 @@ CGFloat const kFocalPointOfInterestY = 0.5;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
-            for(AVCaptureInput *input in self.session.inputs) {
-                [self.session removeInput:input];
-            }
+            [self removeDeviceInput];
             
             for(AVCaptureOutput *output in self.session.outputs) {
                 [self.session removeOutput:output];
@@ -280,7 +283,7 @@ CGFloat const kFocalPointOfInterestY = 0.5;
     [newSession setSessionPreset:AVCaptureSessionPresetHigh];
     
     AVCaptureDeviceInput *input = [self deviceInputForCaptureDevice:captureDevice];
-    [newSession addInput:input];
+    [self setDeviceInput:input session:newSession];
     
     AVCaptureMetadataOutput *captureOutput = [[AVCaptureMetadataOutput alloc] init];
     [captureOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
@@ -326,23 +329,6 @@ CGFloat const kFocalPointOfInterestY = 0.5;
         newCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     }
 
-    if ([newCaptureDevice lockForConfiguration:nil] == YES) {
-        
-        // Prioritize the focus on objects near to the device
-        if ([newCaptureDevice respondsToSelector:@selector(isAutoFocusRangeRestrictionSupported)] &&
-            newCaptureDevice.isAutoFocusRangeRestrictionSupported) {
-            newCaptureDevice.autoFocusRangeRestriction = AVCaptureAutoFocusRangeRestrictionNear;
-        }
-        
-        // Focus on the center of the image
-        if ([newCaptureDevice respondsToSelector:@selector(isFocusPointOfInterestSupported)] &&
-            newCaptureDevice.isFocusPointOfInterestSupported) {
-            newCaptureDevice.focusPointOfInterest = CGPointMake(kFocalPointOfInterestX, kFocalPointOfInterestY);
-        }
-        
-        [newCaptureDevice unlockForConfiguration];
-    }
-    
     return newCaptureDevice;
 }
 
@@ -397,18 +383,60 @@ CGFloat const kFocalPointOfInterestY = 0.5;
 - (void)setCamera:(MTBCamera)camera {
     
     if (self.isScanning && camera != _camera) {
-        
-        for (AVCaptureInput *input in self.session.inputs) {
-            [self.session removeInput:input];
-        }
-        
         AVCaptureDevice *captureDevice = [self newCaptureDeviceWithCamera:camera];
         AVCaptureDeviceInput *input = [self deviceInputForCaptureDevice:captureDevice];
-        [self.session addInput:input];
-        
+        [self setDeviceInput:input session:self.session];
     }
     
     _camera = camera;
+}
+
+- (void)setDeviceInput:(AVCaptureDeviceInput *)input session:(AVCaptureSession *)session
+{
+    [self removeDeviceInput];
+    deviceInput = input;
+    
+    if ([deviceInput.device lockForConfiguration:nil] == YES) {
+        
+        // Prioritize the focus on objects near to the device
+        if ([deviceInput.device respondsToSelector:@selector(isAutoFocusRangeRestrictionSupported)] &&
+            deviceInput.device.isAutoFocusRangeRestrictionSupported) {
+            previousAutoFocusRangeRestricion = deviceInput.device.autoFocusRangeRestriction;
+            deviceInput.device.autoFocusRangeRestriction = AVCaptureAutoFocusRangeRestrictionNear;
+        }
+        
+        // Focus on the center of the image
+        if ([deviceInput.device respondsToSelector:@selector(isFocusPointOfInterestSupported)] &&
+            deviceInput.device.isFocusPointOfInterestSupported) {
+            previousFocusPointOfInterest = deviceInput.device.focusPointOfInterest;
+            deviceInput.device.focusPointOfInterest = CGPointMake(kFocalPointOfInterestX, kFocalPointOfInterestY);
+        }
+        
+        [deviceInput.device unlockForConfiguration];
+    }
+    
+    [session addInput:input];
+}
+
+- (void)removeDeviceInput
+{
+    // restore focus settings to the previously saved state
+    if ([deviceInput.device lockForConfiguration:nil] == YES) {
+        if ([deviceInput.device respondsToSelector:@selector(isAutoFocusRangeRestrictionSupported)] &&
+            deviceInput.device.isAutoFocusRangeRestrictionSupported) {
+            deviceInput.device.autoFocusRangeRestriction = previousAutoFocusRangeRestricion;
+        }
+        
+        if ([deviceInput.device respondsToSelector:@selector(isFocusPointOfInterestSupported)] &&
+            deviceInput.device.isFocusPointOfInterestSupported) {
+            deviceInput.device.focusPointOfInterest = previousFocusPointOfInterest;
+        }
+        
+        [deviceInput.device unlockForConfiguration];
+    }
+    
+    [self.session removeInput:deviceInput];
+    deviceInput = nil;
 }
 
 @end
