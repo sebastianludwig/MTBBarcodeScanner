@@ -276,10 +276,10 @@ CGFloat const kFocalPointOfInterestY = 0.5;
 
 - (AVCaptureSession *)newSessionWithCaptureDevice:(AVCaptureDevice *)captureDevice {
     AVCaptureSession *newSession = [[AVCaptureSession alloc] init];
-    AVCaptureDeviceInput *input = [self deviceInputForCaptureDevice:captureDevice];
-    
     // Set an optimized preset for barcode scanning
     [newSession setSessionPreset:AVCaptureSessionPresetHigh];
+    
+    AVCaptureDeviceInput *input = [self deviceInputForCaptureDevice:captureDevice];
     [newSession addInput:input];
     
     AVCaptureMetadataOutput *captureOutput = [[AVCaptureMetadataOutput alloc] init];
