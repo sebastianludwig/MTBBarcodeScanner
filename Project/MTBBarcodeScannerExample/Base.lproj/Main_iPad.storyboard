@@ -251,7 +251,7 @@
                                     <outlet property="dataSource" destination="uM7-fn-iuC" id="YLb-aY-rLw"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVE-oH-IBI">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVE-oH-IBI">
                                 <rect key="frame" x="610" y="962" width="41" height="30"/>
                                 <state key="normal" title="Crash">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -266,12 +266,14 @@
                             <constraint firstAttribute="trailing" secondItem="hJR-r2-GXG" secondAttribute="trailing" constant="20" symbolic="YES" id="RyG-bh-bd6"/>
                             <constraint firstItem="hJR-r2-GXG" firstAttribute="leading" secondItem="47V-3G-ScE" secondAttribute="leading" constant="20" symbolic="YES" id="W4K-jD-lOg"/>
                             <constraint firstItem="Mw0-co-fNB" firstAttribute="centerX" secondItem="xad-It-gmb" secondAttribute="centerX" id="cvx-S2-sJJ"/>
+                            <constraint firstItem="fVE-oH-IBI" firstAttribute="leading" secondItem="xad-It-gmb" secondAttribute="trailing" constant="59" id="gsV-nz-0X2"/>
                             <constraint firstItem="Mw0-co-fNB" firstAttribute="top" secondItem="hJR-r2-GXG" secondAttribute="bottom" constant="8" symbolic="YES" id="hqP-GW-8K9"/>
                             <constraint firstItem="hJR-r2-GXG" firstAttribute="trailing" secondItem="Mw0-co-fNB" secondAttribute="trailing" id="i0n-Gw-Wo3"/>
                             <constraint firstAttribute="bottom" secondItem="xad-It-gmb" secondAttribute="bottom" constant="20" symbolic="YES" id="k1z-sc-aDK"/>
                             <constraint firstItem="Mw0-co-fNB" firstAttribute="leading" secondItem="hJR-r2-GXG" secondAttribute="leading" id="l09-WS-w56"/>
                             <constraint firstItem="hJR-r2-GXG" firstAttribute="top" secondItem="7ze-es-1fF" secondAttribute="bottom" constant="15" id="lLw-BD-Wfp"/>
                             <constraint firstItem="xad-It-gmb" firstAttribute="top" secondItem="Mw0-co-fNB" secondAttribute="bottom" constant="8" symbolic="YES" id="oKB-Oy-24P"/>
+                            <constraint firstItem="fVE-oH-IBI" firstAttribute="centerY" secondItem="xad-It-gmb" secondAttribute="centerY" constant="8.5" id="rSY-uC-W8p"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Basic Example" id="pvk-zm-5W0">
